@@ -40,18 +40,24 @@ def dehonkify(intext):
         ostr += honk2byte(honkies[honk:honk+8])
     return(ostr)
 
+def printwrapped(text, banner, pure):
+    if not pure:
+        print(banner)
+    print(text)
+
 ustring = "USAGE: python honkencoder.py [honkify/dehonkify]"
+PURE_MODE = len(sys.argv) > 2
 try: 
     if sys.argv[1] == 'honkify':
-        print(" ~~~ HONKIFYING ~~~ ")
-        print(honkify(intext.strip()))
+        printwrapped(honkify(intext.strip()),
+                     " ~~~ HONKIFYING ~~~ ", PURE_MODE)
     elif sys.argv[1] == 'dehonkify':
-        print(" ~~~ ATTEMPTING TO DE-HONKIFY ~~~ ")
         try:
-            print(dehonkify(intext.strip()))
-        except Exception as e:
-            exit("Unable to de-honk input text")
+            printwrapped(dehonkify(intext.strip()),
+                     " ~~~ ATTEMPTING TO DE-HONKIFY ~~~ ", PURE_MODE)
+        except:
+            exit("de-honkification failed...")
     else:
         print(ustring)
-except:
-    print(ustring)
+except Exception as h:
+    print(h)
